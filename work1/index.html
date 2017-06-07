@@ -1,18 +1,363 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <mata charset="UTF-8"></mata>
-        <title>第一個網站</title>
-    
-    
-    </head>
-    
-    <body>
-        hello
-    
-    
-    </body>
+
+<head>
+    <mata charset="UTF-8"></mata>
+    <title>第一個網站</title>
+    <script type="text/jscript" src="jQuery/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="jQuery-ui/js/jquery.js"></script>
+    <script type="text/javascript" src="jQuery-ui/js/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="jQuery-ui/css/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.css">
+    <script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+    <style>
+        body,
+        input {
+            letter-spacing: 1px;
+            font-family: "Noto Sans TC", "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        
+        a:link,
+        a:visited,
+        a:hover,
+        a:active {
+            color: black;
+            text-decoration: none;
+        }
+        
+        header>div:first-child {
+            border-bottom: 2px solid #efefef;
+            text-align: center;
+        }
+        
+        .menu-toggle {
+            border: 0px;
+            background: rgba(0, 0, 0, 0);
+            font-size: 30px;
+            position: absolute;
+            top: 30px;
+            left: 8%;
+        }
+        
+        .header-backhome {
+            width: 250px;
+            display: inline-block;
+        }
+        
+        .header-logo {
+            max-width: 100%;
+            margin: 30px 0px 20px 0px;
+        }
+        
+        .search-form {
+            display: inline-block;
+            position: absolute;
+            right: 5%;
+            top: 40px;
+        }
+        
+        .search-field,
+        .search-submit {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .search-field {
+            width: 203px;
+            border: 1px solid #cccccc;
+            padding: 4px 8px;
+        }
+        
+        .search-submit {
+            border: 0px;
+            background-image: url(img/SearchButton.png);
+            background-repeat: no-repeat;
+            width: 47px;
+            height: 30px;
+        }
+        
+        .nav-menu {
+            list-style-type: none;
+            font-size: 18px;
+            text-align: center;
+        }
+        
+        .nav-menu li {
+            display: inline-block;
+            margin: 16px 10px 10px 0px;
+        }
+        
+        .nav-menu a {
+            border: 1px solid #6f6f6f;
+            border-radius: 3px;
+            padding: 4px 5px;
+        }
+        
+        .nav-menu a:hover {
+            border-color: black;
+        }
+        /*
+        .img-slider {
+            display: inline-block;
+            position: relative;
+            overflow: visible;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            width: 100%;
+            height: 0px;
+            padding-bottom: 15%;
+        }
+        
+        .img-slider>div {
+            display: inline-block;
+            padding-bottom: 10%;
+            position: absolute;
+            top: 0px;
+        }
+        
+        .img-slider a {
+            display: inline-block;
+            color: black;
+            text-align: center;
+            font-size: 18px;
+        }
+        
+        .img-slider>div>a:nth-child(1) {
+            position: relative;
+            width: 100%;
+            height: 170px;
+        }
+        
+        .img-slider>div>a:nth-child(2) {
+            width: 100%;
+            height: 30px;
+        }
+        
+        .img-slider>div>a:nth-child(2):hover {
+            color: #f06423;
+        }
+        
+        .img-slider img {
+            position: absolute;
+            clip: rect(0px 250px 170px 0px);
+            top: 0px;
+            left: 0px;
+            max-width: 100%;
+        }
+        
+        #test {
+            position: absolute;
+            width: 500px;
+        }
+*/
+        
+        .slider-area {
+            position: absolute;
+            overflow: scroll;
+            width: 100%;
+            height: 0px;
+            padding-bottom: 12%;
+        }
+        
+        .slider-area::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .slider-area div {
+            width: 250px;
+            height: 200px;
+            display: inline-block;
+            position: absolute;
+            top: 0px;
+        }
+        
+        .slider-area a {
+            display: block;
+            width: 100%;
+            font-size: 0.8vw;
+            text-align: center;
+        }
+        
+        .slider-area img {
+            width: 250px;
+            height: 180px;
+        }
+    </style>
+
+    <script>
+        $(function() {
+            AddSliderArea(); //動態增加滑塊區域
+
+            var slider_area_divs = $(".slider-area div"); //取得滑動區塊所有div
+
+            SliderArea(0, slider_area_divs); //初始設定滑動區塊圖片位置
+
+            $("#bt-left").on("click", function() {
+                SliderArea(1, slider_area_divs); //滑動區塊向左移
+            });
+            $("#bt-right").on("click", function() {
+                SliderArea(2, slider_area_divs); //滑動區塊向右移
+            });
+
+        });
+    </script>
+
+    <script>
+        function AddSliderArea() {
+
+            var img_src = new Array("img/taishin0306.png", "img/011-5.jpg", "img/6236190779_81d3720596_z.jpg", "img/Screen-Shot-2016-08-08-at-3.43.36-PM.png", "img/1-starbucks-square.jpg", "img/17458857935_4dc80e6a46_z.jpg", "img/SV2-kktix-1.jpg", "img/TaiwanTaxi-slide.png", "img/MS-slide.png", "img/win10cut.jpg", "img/MicroSoft-retail.png");
+
+            var a_text = new Array("台新銀的 Fintech 轉型之路", "台灣半導體存亡危機", "工業 4.0，台灣政府不能失靈", "用對雲端，企業競爭力大躍進", "創業大頭的成功模式都好狂", "撼動銀行界的區塊鏈", "台矽之間的真正距離", "在車上帶你看科技與未來", "台灣工業 4.0 轉型錦囊", "數位時代的企業管理", "零售業數位轉型分析");
+
+            var slider_area = $(".slider-area");
+
+            for (i = 0; i < img_src.length; i++) {
+                var div = $("<div></div>");
+                var a1 = $("<a></a>").attr("href", "#");
+                var img = $("<img>").attr("src", img_src[i]);
+                var a2 = $("<a></a>").attr("href", "#").text(a_text[i]);
+                a1.append(img);
+                div.append([a1, a2]);
+                slider_area.append(div);
+                console.log(img);
+            }
+        }
+    </script>
+
+    <script>
+        var position_array = new Array();
+
+        function SliderArea(index, slider_area_divs) {
+
+            if (index == 0) {
+                for (i = 0; i < slider_area_divs.length; i++) {
+                    var position_value = (i * 13.5);
+                    slider_area_divs[i].setAttribute("style", "left: " + position_value + "%");
+                    position_array[i] = position_value;
+                }
+            }
+            if (index == 1) {
+
+                for (i = 0; i < slider_area_divs.length; i++) {
+                    position_array[i] = position_array[i] - 27;
+                    $(".slider-area>div:nth-child(" + (i + 1) + ")").animate({
+                        left: position_array[i] + "%"
+                    }, 1000, function() {
+
+                    });
+                }
+            }
+            if (index == 2) {
+
+                for (i = 0; i < slider_area_divs.length; i++) {
+                    position_array[i] = position_array[i] + 27;
+                    $(".slider-area>div:nth-child(" + (i + 1) + ")").animate({
+                        left: position_array[i] + "%"
+                    }, 1000, function() {
+
+                    });
+                }
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+    <header>
+        <div>
+            <button class="menu-toggle">
+                    <span class="glyphicon glyphicon-align-justify"></span>
+                </button>
+
+            <a class="header-backhome">
+                <img class="header-logo" src="img/TO.png" alt="techorange">
+            </a>
+
+            <form class="search-form">
+                <input placeholder="搜尋" class="search-field"><button class="search-submit"></button>
+            </form>
+
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="#">報橘徵才</a></li>
+                <li><a href="#">直播/影音</a></li>
+                <li><a href="#">Top選書</a></li>
+                <li><a href="#">創新創業</a></li>
+                <li><a href="#">人工智慧</a></li>
+                <li><a href="#">數位行銷</a></li>
+                <li><a href="#">新經濟</a></li>
+                <li><a href="#">fintech</a></li>
+                <li><a href="#">數位轉型</a></li>
+                <li><a href="#">專訪</a></li>
+                <li><a href="#">TO商業評論</a></li>
+            </ul>
+        </nav>
+
+        <button id="bt-left"> 左 </button>
+        <button id="bt-right"> 右 </button>
+
+        <div class="slider-area">
+            <!--
+            <div>
+                <a href="# "><img src="img/taishin0306.png "></a>
+                <a href="# ">台新銀的 Fintech 轉型之路</a>
+            </div>
+            <div>
+                <a href="# "><img src="img/taishin0306.png "></a>
+                <a href="# ">台新銀的 Fintech 轉型之路</a>
+            </div>
+            <div>
+                <a href="# "><img src="img/taishin0306.png "></a>
+                <a href="# ">台新銀的 Fintech 轉型之路</a>
+            </div>
+            <div>
+                <a href="# "><img src="img/taishin0306.png "></a>
+                <a href="# ">台新銀的 Fintech 轉型之路</a>
+            </div>
+            <div>
+                <a href="# "><img src="img/taishin0306.png "></a>
+                <a href="# ">台新銀的 Fintech 轉型之路</a>
+            </div>
+            <div>
+                <a href="# "><img src="img/taishin0306.png "></a>
+                <a href="# ">台新銀的 Fintech 轉型之路</a>
+            </div>
+            <div>
+                <a href="# "><img src="img/taishin0306.png "></a>
+                <a href="# ">台新銀的 Fintech 轉型之路</a>
+            </div>
+            <div>
+                <a href="# "><img src="img/taishin0306.png "></a>
+                <a href="# ">台新銀的 Fintech 轉型之路</a>
+            </div>
+-->
+            <!--
+            <div>
+                <a href="# "><img src="img/taishin0306.png "></a>
+                <a href="# ">台新銀的 Fintech 轉型之路</a>
+            </div>
+            <div>
+                <a href="# "><img src="img/taishin0306.png "></a>
+                <a href="# ">台新銀的 Fintech 轉型之路</a>
+            </div>
+            <div>
+                <a href="# "><img src="img/taishin0306.png "></a>
+                <a href="# ">台新銀的 Fintech 轉型之路</a>
+            </div>
+            <div>
+                <a href="# "><img src="img/taishin0306.png "></a>
+                <a href="# ">台新銀的 Fintech 轉型之路</a>
+            </div>
+-->
+        </div>
+
+    </header>
+
+</body>
 
 
 </html>
